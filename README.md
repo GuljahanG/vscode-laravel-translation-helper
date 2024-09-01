@@ -25,7 +25,7 @@
 
 Or, add this to `settings.json`:
 
-```json
+json
 {
   "laravelTranslatorHelper.rootDirectory": "resources/lang"
 }
