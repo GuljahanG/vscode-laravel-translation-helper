@@ -1,6 +1,10 @@
 # Laravel Translator Helper
 
 
+## How It Works
+
+![Demo of Feature](https://github.com/GuljahanG/vscode-laravel-translation-helper/blob/master/laravel-translater-helper_nsYtDqKl-ezgif.com-video-to-gif-converter.gif)
+
 
 ## Overview
 
