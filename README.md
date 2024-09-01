@@ -55,6 +55,3 @@ json
 
 Contributions are welcome! Please submit a pull request or create an issue for any bugs or feature requests.
 
-## License
-
-This extension is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
