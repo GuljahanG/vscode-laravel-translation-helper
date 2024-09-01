@@ -1,6 +1,5 @@
 # Laravel Translator Helper
 
-![laravel-translater-helper_nsYtDqKl-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/d4c2608c-910c-4b29-bdfb-b4187c7c770d)
 
 ## Overview
 
