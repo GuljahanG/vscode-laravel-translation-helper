@@ -36,6 +36,10 @@ json
 2. Right-click and choose **Process and Update Localization Files**.
 3. Or press `Ctrl+Alt+T` to wrap text instantly.
 
+## 📹 How to Use
+
+Watch our [How to Use video](https://youtu.be/4sR6uybrXG0) for a step-by-step guide on using this extension.
+
 ## 🎹 Keybindings
 
 - `Ctrl+Alt+T`: Quick wrap selected text.
