@@ -28,7 +28,7 @@ To customize the root directory for localization files, add the following config
 
 Alternatively, you can directly edit your `settings.json` file and add:
 
-```json
+json
 {
   "laravelTranslatorHelper.rootDirectory": "resources/lang"
 }
@@ -40,10 +40,6 @@ Alternatively, you can directly edit your `settings.json` file and add:
 1. Select the text you want to localize in a Blade file.
 2. Right-click and select **Process and Update Localization Files** from the context menu.
 3. Alternatively, you can press `Ctrl+Alt+T` to quickly wrap the selected text.
-
-### Wrapping All Static Text
-
-1. Right-click in the editor and select **Handle All Static Text** to automatically wrap all unwrapped static text in the current file.
 
 ## Keybindings
 
