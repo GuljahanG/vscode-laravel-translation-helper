@@ -1,11 +1,5 @@
 # Laravel Translator Helper
 
-
-## How It Works
-
-![Demo of Feature](https://github.com/GuljahanG/vscode-laravel-translation-helper/blob/master/laravel-translater-helper_nsYtDqKl-ezgif.com-video-to-gif-converter.gif)
-
-
 ## Overview
 
 **Laravel Translator Helper** is a Visual Studio Code extension that automatically wraps static text in Laravel Blade files for localization. This tool simplifies the process of internationalizing your Laravel applications by allowing you to easily generate localization keys and update your language files.
