@@ -3,7 +3,7 @@
   "displayName": "Laravel Translator Helper",
   "description": "This extention will automatically wrap your static text in file to localization and translate",
   "publisher": "ilmedovaGuljahan",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.92.0"
   },
@@ -12,32 +12,32 @@
   ],
   "main": "./dist/extension.js",
   "activationEvents": [
-      "onCommand:extension.handleText"
+    "onCommand:extension.handleText"
   ],
   "contributes": {
-      "commands": [
-          {
-              "command": "extension.handleText",
-              "title": "Process and Update Localization Files"
-          }
-      ],
-      "keybindings": [
-          {
-              "command": "extension.handleText",
-              "key": "ctrl+alt+t",
-              "when": "editorTextFocus"
-          }
-      ],
-      "menus": {
-        "editor/context": [
-          {
-            "command": "extension.handleText",
-            "when": "editorHasSelection",
-            "group": "navigation"
-          }
-        ]
-      },
-      "configuration": {
+    "commands": [
+      {
+        "command": "extension.handleText",
+        "title": "Process and Update Localization Files"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "extension.handleText",
+        "key": "ctrl+alt+t",
+        "when": "editorTextFocus"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "extension.handleText",
+          "when": "editorHasSelection",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
       "type": "object",
       "title": "Laravel Translator Helper Configuration",
       "properties": {
@@ -45,11 +45,28 @@
           "type": "string",
           "default": "resources/lang",
           "description": "The root directory for localization files."
+        },
+        "laravelTranslatorHelper.caseFormat": {
+          "type": "string",
+          "enum": [
+            "camelCase",
+            "snake_case"
+          ],
+          "default": "snake_case",
+          "description": "The case format for generated keys. Choose either camelCase or snake_case."
+        },
+        "laravelTranslatorHelper.filePathMode": {
+          "type": "string",
+          "enum": [
+            "manual",
+            "auto"
+          ],
+          "default": "auto",
+          "description": "Mode for handling file paths. Choose either 'manual' to enter file path manually or 'auto' to use the current file path."
         }
       }
     }
   },
-  
   "scripts": {
     "vscode:prepublish": "npm run package",
     "compile": "webpack",
@@ -76,6 +93,8 @@
     "webpack-cli": "^5.1.4"
   },
   "dependencies": {
+    "@vitalets/google-translate-api": "^9.2.0",
+    "http-proxy-agent": "^7.0.2",
     "node-fetch": "^3.3.2"
   },
   "repository": {

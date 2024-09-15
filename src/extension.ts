@@ -1,6 +1,9 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
+import { formatText } from './formatText';
+import { getFilePath } from './filePathUtils';
+import { translateText } from './translationService';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -16,19 +19,10 @@ export function activate(context: vscode.ExtensionContext) {
                 return;
             }
 
-			// Prompt user for file path
-            const filePathInput = await vscode.window.showInputBox({
-                prompt: 'Enter file path for localization (e.g., head/message.php)',
-                placeHolder: 'e.g., head/message.php',
-            });
-
-            if (!filePathInput) {
-                vscode.window.showErrorMessage('No file path entered, operation canceled.');
-                return;
-            }
+			const filePathInput = await getFilePath();
 
             // Extract key and translation path from the file path
-            const { key, translationPath } = getKeyAndPath(filePathInput, text);
+            const { key, translationPath } = await getKeyAndPath(filePathInput, text);
             // Format the wrapped text
             const wrappedText = `{{ __('${translationPath}.${key}') }}`;
 
@@ -65,7 +59,7 @@ export function activate(context: vscode.ExtensionContext) {
 
                 // Update the locale file with the new key-value pair
                 if (!translationKeyExists(filePath, key)) {
-                    updateLocaleFile(filePath, key, text);
+                    await updateLocaleFile(filePath, key, text, locale);
                 }
             }
         }
@@ -74,37 +68,26 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposable);
 }
 
-function getKeyAndPath(filePath: string, text: string): { key: string, translationPath: string } {
+async function getKeyAndPath(filePath: string, text: string): Promise<{ key: string, translationPath: string }> {
     const parsedPath = path.parse(filePath);
-    const key = generateKeyFromText(text);
+    const key = await generateKeyFromText(text);
     const translationPath = path.join(parsedPath.dir, parsedPath.name).replace(/\\/g, '/');
     
     return { key, translationPath };
 }
 
-function generateKeyFromText(text: string): string {
-    const latinText = transliterate(text);
-    return latinText
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, '_')
-        .replace(/[^a-z0-9_]/g, '');
-}
+async function generateKeyFromText(text: string): Promise<string> {
+    const config = vscode.workspace.getConfiguration('laravelTranslatorHelper');
+    const caseFormat = config.get<string>('caseFormat', 'snake_case'); // Default to snake_case if not set
 
-function transliterate(text: string): string {
-    const cyrillicToLatinMap: { [key: string]: string } = {
-        'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E', 'Ж': 'Zh',
-        'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O',
-        'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'Kh', 'Ц': 'Ts',
-        'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Shch', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'Yu',
-        'Я': 'Ya', 'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e',
-        'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n',
-        'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'kh',
-        'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'shch', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e',
-        'ю': 'yu', 'я': 'ya'
-    };
+    try {
+        const translatedText = await translateText(text, 'en');//translate.translate(text, { from: 'ru', to: 'en', fetchOptions: { agent } });
 
-    return text.split('').map(char => cyrillicToLatinMap[char] || char).join('');
+        return formatText(translatedText, caseFormat);
+    } catch (error) {
+        console.error("Translation error: ", error);
+        return text; 
+    }
 }
 
 function translationKeyExists(filePath: string, key: string): boolean {
@@ -118,10 +101,11 @@ function translationKeyExists(filePath: string, key: string): boolean {
     }
 }
 
-function updateLocaleFile(filePath: string, key: string, text: string) {
+async function updateLocaleFile(filePath: string, key: string, text: string, locale: string) {
+    const translatedText = await translateText(text, locale);//await fetchTranslation(text, 'en', locale); //await translate.translate(text, { to: locale });
     vscode.workspace.openTextDocument(filePath).then(document => {
         const edit = new vscode.WorkspaceEdit();
-        const newEntry = `'${key}' => '${text}'`;
+        const newEntry = `'${key}' => '${translatedText}'`;
 
         const fileUri = vscode.Uri.file(filePath);
         const textContent = document.getText();
