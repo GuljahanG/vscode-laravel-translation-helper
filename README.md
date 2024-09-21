@@ -44,7 +44,7 @@ Or, add this to `settings.json`:
   "laravelTranslatorHelper.filePathMode": "auto",
   "laravelTranslatorHelper.caseFormat": "camelCase"
 }
-
+```
 ## 🛠️ Usage
 
 1. Select text in a Blade file.
