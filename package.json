@@ -3,7 +3,7 @@
   "displayName": "Laravel Translator Helper",
   "description": "This extention will automatically wrap your static text in file to localization and translate",
   "publisher": "ilmedovaGuljahan",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "engines": {
     "vscode": "^1.92.0"
   },
