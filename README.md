@@ -62,7 +62,7 @@ Watch our [How to Use video](https://youtu.be/4sR6uybrXG0) for a step-by-step gu
 ### v7
 - Add a quick fix button for translations.
 
-![Pathetic Cat](https://media.giphy.com/media/3o6Zt7R6oM9a6hWx1C/giphy.gif)
+![Pathetic Cat](https://media.tenor.com/kPLrQQWWgYsAAAAM/kittens-please.gif)
 
 😺 **Support Needed**: For the next version, we need a VPS server to enhance functionality. This will help all Laravel users. Thank you for your support! You can buy me a coffee [here](https://buymeacoffee.com/ilmedova).
 
