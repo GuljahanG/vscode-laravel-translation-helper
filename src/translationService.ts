@@ -1,15 +1,20 @@
+function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export async function translateText(text: string, targetLang: string, sourceLang = 'auto'): Promise<string> {
     const url = 'https://translate.googleapis.com/translate_a/single?';
     const params = {
         client: 'at',
-        dt: 't',   //return sentences
-        sl: 'auto', //from
-        tl: targetLang, //to
+        dt: 't',   // return sentences
+        sl: 'auto', // from
+        tl: targetLang, // to
         q: text
     };
     const queryString = new URLSearchParams(params).toString();
 
     try {
+        await sleep(1000); // delay of 1 second to reduce frequency of requests
         const response = await fetch(url + queryString, { method: 'GET' });
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);

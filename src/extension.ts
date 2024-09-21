@@ -102,10 +102,10 @@ function translationKeyExists(filePath: string, key: string): boolean {
 }
 
 async function updateLocaleFile(filePath: string, key: string, text: string, locale: string) {
-    const translatedText = await translateText(text, locale);//await fetchTranslation(text, 'en', locale); //await translate.translate(text, { to: locale });
+    const nonTranslatedText = text;//await translateText(text, locale); 
     vscode.workspace.openTextDocument(filePath).then(document => {
         const edit = new vscode.WorkspaceEdit();
-        const newEntry = `'${key}' => '${translatedText}'`;
+        const newEntry = `'${key}' => '${nonTranslatedText}'`;
 
         const fileUri = vscode.Uri.file(filePath);
         const textContent = document.getText();

@@ -1,8 +1,7 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ({
-
-/***/ 0:
+/******/ 	var __webpack_modules__ = ([
+/* 0 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -20,9 +19,9 @@ exports.activate = activate;
 const vscode = __webpack_require__(1);
 const fs = __webpack_require__(2);
 const path = __webpack_require__(3);
-const formatText_1 = __webpack_require__(30);
-const filePathUtils_1 = __webpack_require__(31);
-const translationService_1 = __webpack_require__(48);
+const formatText_1 = __webpack_require__(4);
+const filePathUtils_1 = __webpack_require__(5);
+const translationService_1 = __webpack_require__(6);
 function activate(context) {
     let disposable = vscode.commands.registerCommand('extension.handleText', () => __awaiter(this, void 0, void 0, function* () {
         const editor = vscode.window.activeTextEditor;
@@ -107,10 +106,10 @@ function translationKeyExists(filePath, key) {
 }
 function updateLocaleFile(filePath, key, text, locale) {
     return __awaiter(this, void 0, void 0, function* () {
-        const translatedText = yield (0, translationService_1.translateText)(text, locale); //await fetchTranslation(text, 'en', locale); //await translate.translate(text, { to: locale });
+        const nonTranslatedText = text; //await translateText(text, locale); 
         vscode.workspace.openTextDocument(filePath).then(document => {
             const edit = new vscode.WorkspaceEdit();
-            const newEntry = `'${key}' => '${translatedText}'`;
+            const newEntry = `'${key}' => '${nonTranslatedText}'`;
             const fileUri = vscode.Uri.file(filePath);
             const textContent = document.getText();
             // Check if the file is new or empty
@@ -180,8 +179,53 @@ function getLocaleFolders(rootLangPath) {
 
 
 /***/ }),
+/* 1 */
+/***/ ((module) => {
 
-/***/ 31:
+module.exports = require("vscode");
+
+/***/ }),
+/* 2 */
+/***/ ((module) => {
+
+module.exports = require("fs");
+
+/***/ }),
+/* 3 */
+/***/ ((module) => {
+
+module.exports = require("path");
+
+/***/ }),
+/* 4 */
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.formatText = formatText;
+function toCamelCase(text) {
+    return text
+        .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => index === 0 ? match.toLowerCase() : match.toUpperCase())
+        .replace(/\s+/g, ''); // Remove spaces after transforming to camelCase
+}
+function toSnakeCase(text) {
+    return text.replace(/\s+/g, '_'); // Replace spaces with underscores
+}
+function formatText(text, format) {
+    let formattedText = text.trim().toLowerCase();
+    if (format === 'camelCase') {
+        formattedText = toCamelCase(formattedText);
+    }
+    else if (format === 'snake_case') {
+        formattedText = toSnakeCase(formattedText);
+    }
+    // Remove non-alphanumeric characters
+    return formattedText.replace(/[^\w]/g, '');
+}
+
+
+/***/ }),
+/* 5 */
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 
@@ -235,37 +279,7 @@ function getFilePath() {
 
 
 /***/ }),
-
-/***/ 30:
-/***/ ((__unused_webpack_module, exports) => {
-
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.formatText = formatText;
-function toCamelCase(text) {
-    return text
-        .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => index === 0 ? match.toLowerCase() : match.toUpperCase())
-        .replace(/\s+/g, ''); // Remove spaces after transforming to camelCase
-}
-function toSnakeCase(text) {
-    return text.replace(/\s+/g, '_'); // Replace spaces with underscores
-}
-function formatText(text, format) {
-    let formattedText = text.trim().toLowerCase();
-    if (format === 'camelCase') {
-        formattedText = toCamelCase(formattedText);
-    }
-    else if (format === 'snake_case') {
-        formattedText = toSnakeCase(formattedText);
-    }
-    // Remove non-alphanumeric characters
-    return formattedText.replace(/[^\w]/g, '');
-}
-
-
-/***/ }),
-
-/***/ 48:
+/* 6 */
 /***/ (function(__unused_webpack_module, exports) {
 
 
@@ -280,18 +294,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.translateText = translateText;
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 function translateText(text_1, targetLang_1) {
     return __awaiter(this, arguments, void 0, function* (text, targetLang, sourceLang = 'auto') {
         const url = 'https://translate.googleapis.com/translate_a/single?';
         const params = {
             client: 'at',
-            dt: 't', //return sentences
-            sl: 'auto', //from
-            tl: targetLang, //to
+            dt: 't', // return sentences
+            sl: 'auto', // from
+            tl: targetLang, // to
             q: text
         };
         const queryString = new URLSearchParams(params).toString();
         try {
+            yield sleep(1000); // delay of 1 second to reduce frequency of requests
             const response = yield fetch(url + queryString, { method: 'GET' });
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -309,30 +327,8 @@ function translateText(text_1, targetLang_1) {
 }
 
 
-/***/ }),
-
-/***/ 1:
-/***/ ((module) => {
-
-module.exports = require("vscode");
-
-/***/ }),
-
-/***/ 2:
-/***/ ((module) => {
-
-module.exports = require("fs");
-
-/***/ }),
-
-/***/ 3:
-/***/ ((module) => {
-
-module.exports = require("path");
-
 /***/ })
-
-/******/ 	});
+/******/ 	]);
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};

@@ -4,11 +4,18 @@
 
 **Laravel Translator Helper** is a VS Code extension that auto-wraps static text in Laravel Blade files for localization. Simplify your Laravel app's internationalization with easy key generation and language file updates!
 
+
 ## 🚀 Features
 
-- 🔑 **Unique Keys**: Auto-generate keys by transliterating Cyrillic to Latin.
-- 📂 **Directory Support**: Organize localization files easily.
-- ⚡ **Quick Wrap**: Instantly wrap selected text with `__('key')` for localization.
+- 🔑 **Unique Keys**: Auto-generate keys by transliterating Cyrillic to Latin or using camelCase for translations.
+- ⚙️ **Manual & Automatic Configuration**: 
+  - **Automatic**: Automatically detect the file direction.
+  - **Manual**: Add the desired file by entering its name in the input field.
+- 📂 **Directory Support**: Easily manage localization files in your specified root directory.
+- ⚡ **Quick Wrap**: Instantly wrap static text with `__('key')` for localization.
+- 🌐 **Google Translator**: Use the Google Translator for free, but note that it has usage limits. If you encounter a 429 error, consider using a proxy.
+- ⏳ **Version 5 Updates**: We are eagerly awaiting updates in version 5! 
+
 
 ## 📦 Installation
 
@@ -44,10 +51,20 @@ Watch our [How to Use video](https://youtu.be/4sR6uybrXG0) for a step-by-step gu
 
 - `Ctrl+Alt+T`: Quick wrap selected text.
 
-## ⚙️ Requirements
+## 🔜 Upcoming Features
 
-- VS Code v1.92.0+
-- Laravel framework
+### v5
+- Open-source translator for keys and text.
+
+### v6
+- Highlighted static text that needs translation.
+
+### v7
+- Add a quick fix button for translations.
+
+![Pathetic Cat](https://media.giphy.com/media/3o6Zt7R6oM9a6hWx1C/giphy.gif)
+
+😺 **Support Needed**: For the next version, we need a VPS server to enhance functionality. This will help all Laravel users. Thank you for your support! You can buy me a coffee [here](https://buymeacoffee.com/ilmedova).
 
 ## 🤝 Contributing
 

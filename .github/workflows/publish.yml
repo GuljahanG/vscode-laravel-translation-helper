@@ -1,4 +1,4 @@
-name: Publish VSCode Extension
+name: Auto Release and Publish VSCode Extension
 
 on:
   push:
@@ -34,3 +34,13 @@ jobs:
       env:
         VSCE_PAT: ${{ secrets.VSCE_PAT }}
       run: vsce publish
+
+    - name: Create Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        VERSION=$(npm pkg get version | tr -d '"')
+        git tag "v$VERSION"
+        git push origin "v$VERSION"
+        echo "Release v$VERSION created and pushed."
+
