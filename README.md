@@ -9,12 +9,12 @@
 
 - 🔑 **Unique Keys**: Auto-generate keys by transliterating Cyrillic to Latin or using camelCase for translations.
 - ⚙️ **Manual & Automatic Configuration**: 
-  - **Automatic**: Automatically detect the file direction.
+  - **Automatic**: Automatically detect the file direction.(default)
   - **Manual**: Add the desired file by entering its name in the input field.
+  - **Case Configuration**: Choose between camelCase or snake_case for your keys, with camelCase as the default.
 - 📂 **Directory Support**: Easily manage localization files in your specified root directory.
 - ⚡ **Quick Wrap**: Instantly wrap static text with `__('key')` for localization.
 - 🌐 **Google Translator**: Use the Google Translator for free, but note that it has usage limits. If you encounter a 429 error, consider using a proxy.
-- ⏳ **Version 5 Updates**: We are eagerly awaiting updates in version 5! 
 
 
 ## 📦 Installation
@@ -29,12 +29,20 @@
 1. Open VS Code settings (`Ctrl+,`).
 2. Search for `Laravel Translator Helper`.
 3. Set your `Root Directory`, e.g., `resources/lang`.
+4. Choose the **File Detection Mode**:
+   - **Automatic**: Automatically detects the file direction (default).
+   - **Manual**: You can specify the desired file by entering its name in the input field.
+5. Set the **Key Case Configuration**:
+   - Use `laravelTranslatorHelper.caseFormat` to choose between `camelCase` or `snake_case` for your keys, with `camelCase` as the default.
+   - Use `laravelTranslatorHelper.filePathMode` to determine how file paths are handled.
 
 Or, add this to `settings.json`:
 
-json
+```json
 {
-  "laravelTranslatorHelper.rootDirectory": "resources/lang"
+  "laravelTranslatorHelper.rootDirectory": "resources/lang",
+  "laravelTranslatorHelper.filePathMode": "auto",
+  "laravelTranslatorHelper.caseFormat": "camelCase"
 }
 
 ## 🛠️ Usage
